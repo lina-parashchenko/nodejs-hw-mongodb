@@ -11,9 +11,9 @@ import {
 export const getAllContacts = async (req, res) => {
   const contacts = await listContacts();
   res.status(200).json({
-    status: 'success',
-    code: 200,
-    data: { contacts },
+    status: 200,
+    message: 'Successfully found all contacts!',
+    data: contacts,
   });
 };
 
@@ -26,9 +26,9 @@ export const getContactByIdController = async (req, res) => {
   }
 
   res.status(200).json({
-    status: 'success',
-    code: 200,
-    data: { contact },
+    status: 200,
+    message: 'Successfully found a contact!',
+    data: contact,
   });
 };
 
@@ -89,9 +89,5 @@ export const deleteContact = async (req, res) => {
     throw createError(404, 'Contact not found');
   }
 
-  res.status(200).json({
-    status: 'success',
-    code: 200,
-    data: { removed },
-  });
+  res.status(204).send();
 };
