@@ -1,9 +1,25 @@
 import { Contact } from '../models/contactModel.js';
 
-export async function listContacts() {
-  const contacts = await Contact.find();
-  return contacts;
-}
+export const listContacts = async (page = 1, perPage = 10) => {
+  const skip = (page - 1) * perPage;
+
+  const [contacts, totalItems] = await Promise.all([
+    Contact.find().skip(skip).limit(perPage),
+    Contact.countDocuments(),
+  ]);
+
+  const totalPages = Math.ceil(totalItems / perPage);
+  const hasPreviousPage = page > 1;
+  const hasNextPage = page < totalPages;
+
+  return {
+    data: contacts,
+    totalItems,
+    totalPages,
+    hasPreviousPage,
+    hasNextPage,
+  };
+};
 
 export async function getContactById(contactId) {
   const contact = await Contact.findById(contactId);

@@ -9,11 +9,29 @@ import {
 } from '../services/contacts.js';
 
 export const getAllContacts = async (req, res) => {
-  const contacts = await listContacts();
+  const page = parseInt(req.query.page) || 1;
+  const perPage = parseInt(req.query.perPage) || 10;
+
+  const {
+    data: contacts,
+    totalItems,
+    totalPages,
+    hasPreviousPage,
+    hasNextPage,
+  } = await listContacts(page, perPage);
+
   res.status(200).json({
     status: 200,
-    message: 'Successfully found all contacts!',
-    data: contacts,
+    message: 'Successfully found contacts!',
+    data: {
+      data: contacts,
+      page,
+      perPage,
+      totalItems,
+      totalPages,
+      hasPreviousPage,
+      hasNextPage,
+    },
   });
 };
 
