@@ -11,6 +11,18 @@ import {
 export const getAllContacts = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const perPage = parseInt(req.query.perPage) || 10;
+  const sortBy = req.query.sortBy || 'name';
+  const sortOrder = req.query.sortOrder === 'desc' ? -1 : 1;
+
+  const filter = {};
+
+  if (req.query.type) {
+    filter.contactType = req.query.type;
+  }
+
+  if (req.query.isFavourite !== undefined) {
+    filter.isFavourite = req.query.isFavourite === 'true';
+  }
 
   const {
     data: contacts,
@@ -18,7 +30,7 @@ export const getAllContacts = async (req, res) => {
     totalPages,
     hasPreviousPage,
     hasNextPage,
-  } = await listContacts(page, perPage);
+  } = await listContacts({ page, perPage, sortBy, sortOrder });
 
   res.status(200).json({
     status: 200,
