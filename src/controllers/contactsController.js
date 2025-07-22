@@ -96,9 +96,9 @@ export const updateContactPut = async (req, res) => {
   });
 };
 export const updateContactPatch = async (req, res) => {
-  const { contactId } = req.params;
+  const { id } = req.params;
 
-  const updatedContact = await patchContactById(contactId, req.body);
+  const updatedContact = await patchContactById(id, req.body);
 
   if (!updatedContact) {
     throw createError(404, 'Contact not found');
