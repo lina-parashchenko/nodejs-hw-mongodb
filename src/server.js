@@ -5,7 +5,8 @@ import dotenv from 'dotenv';
 import contactsRouter from './routes/contactsRouter.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
-
+import sessionRouter from './routes/sessionRouter.js';
+import authRouter from './routes/authRouter.js';
 dotenv.config();
 
 const logger = pino({
@@ -20,6 +21,8 @@ export function setupServer() {
   app.use(cors());
   app.use(express.json());
   app.use('/contacts', contactsRouter);
+  app.use('/auth', authRouter);
+  app.use('/session', sessionRouter);
   app.use(notFoundHandler);
   app.use(errorHandler);
 

@@ -8,7 +8,7 @@ import { isValidId } from '../middlewares/isValidId.js';
 import {
   addContactSchema,
   updateContactSchema,
-} from '../schemas/contactsSchemas.js';
+} from '../validation/contactsSchemas.js';
 
 const router = express.Router();
 
