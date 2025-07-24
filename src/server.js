@@ -7,6 +7,7 @@ import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import sessionRouter from './routes/sessionRouter.js';
 import authRouter from './routes/authRouter.js';
+import cookieParser from 'cookie-parser';
 dotenv.config();
 
 const logger = pino({
@@ -23,6 +24,7 @@ export function setupServer() {
   app.use('/contacts', contactsRouter);
   app.use('/auth', authRouter);
   app.use('/session', sessionRouter);
+  app.use(cookieParser());
   app.use(notFoundHandler);
   app.use(errorHandler);
 
