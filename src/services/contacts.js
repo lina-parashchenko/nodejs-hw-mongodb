@@ -6,11 +6,14 @@ export const listContacts = async ({
   sortBy = 'name',
   sortOrder = 1,
   filter = {},
+  userId,
 }) => {
   const skip = (page - 1) * perPage;
 
+  const query = { userId, ...filter };
+
   const [contacts, totalItems] = await Promise.all([
-    Contact.find()
+    Contact.find(query)
       .sort({ [sortBy]: sortOrder })
       .skip(skip)
       .limit(perPage),
@@ -30,8 +33,8 @@ export const listContacts = async ({
   };
 };
 
-export async function getContactById(contactId) {
-  const contact = await Contact.findById(contactId);
+export async function getContactById(contactId, userId) {
+  const contact = await Contact.findOne({ _id: contactId, userId });
   return contact;
 }
 
@@ -39,14 +42,18 @@ export async function addContact(contactData) {
   return Contact.create(contactData);
 }
 
-export async function updateContactById(contactId, contactData) {
-  return Contact.findByIdAndUpdate(contactId, contactData, { new: true });
+export async function updateContactById(contactId, contactData, userId) {
+  return Contact.findByIdAndUpdate({ _id: contactId, userId }, contactData, {
+    new: true,
+  });
 }
 
-export async function patchContactById(contactId, contactData) {
-  return Contact.findByIdAndUpdate(contactId, contactData, { new: true });
+export async function patchContactById(contactId, contactData, userId) {
+  return Contact.findByIdAndUpdate({ _id: contactId, userId }, contactData, {
+    new: true,
+  });
 }
 
-export async function removeContact(contactId) {
-  return Contact.findByIdAndDelete(contactId);
+export async function removeContact(contactId, userId) {
+  return Contact.findByIdAndDelete({ _id: contactId, userId });
 }

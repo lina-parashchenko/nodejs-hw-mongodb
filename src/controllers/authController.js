@@ -2,6 +2,7 @@ import { registerUser } from '../services/auth.js';
 import { loginUser } from '../services/auth.js';
 import { refreshSession } from '../services/auth.js';
 import createError from 'http-errors';
+import { logoutUser } from '../services/auth.js';
 
 export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
@@ -48,4 +49,15 @@ export const refreshSessionController = async (req, res) => {
     message: 'Successfully refreshed a session!',
     data: { accessToken },
   });
+};
+
+export const logoutUserController = async (req, res) => {
+  if (req.cookies.sessionId) {
+    await logoutUser(req.cookies.sessionId);
+  }
+
+  res.clearCookie('sessionId');
+  res.clearCookie('refreshToken');
+
+  res.status(204).send();
 };

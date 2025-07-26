@@ -30,7 +30,14 @@ export const getAllContacts = async (req, res) => {
     totalPages,
     hasPreviousPage,
     hasNextPage,
-  } = await listContacts({ page, perPage, sortBy, sortOrder });
+  } = await listContacts({
+    page,
+    perPage,
+    sortBy,
+    sortOrder,
+    filter,
+    userId: req.user._id,
+  });
 
   res.status(200).json({
     status: 200,
@@ -49,7 +56,9 @@ export const getAllContacts = async (req, res) => {
 
 export const getContactByIdController = async (req, res) => {
   const { id } = req.params;
-  const contact = await getContactById(id);
+  const userId = req.user._id;
+
+  const contact = await getContactById(id, userId);
 
   if (!contact) {
     throw createError(404, 'Contact not found');
@@ -63,16 +72,12 @@ export const getContactByIdController = async (req, res) => {
 };
 
 export const createContact = async (req, res) => {
-  const { name, phoneNumber, contactType } = req.body;
+  const contactData = {
+    ...req.body,
+    userId: req.user._id,
+  };
 
-  if (!name || !phoneNumber || !contactType) {
-    throw createError(
-      400,
-      'Missing required fields: name, phoneNumber, contactType',
-    );
-  }
-
-  const newContact = await addContact(req.body);
+  const newContact = await addContact(contactData);
 
   res.status(201).json({
     status: 201,
@@ -83,7 +88,7 @@ export const createContact = async (req, res) => {
 
 export const updateContactPut = async (req, res) => {
   const { id } = req.params;
-  const updated = await updateContactById(id, req.body);
+  const updated = await updateContactById(id, req.user._id);
 
   if (!updated) {
     throw createError(404, 'Contact not found');
@@ -98,7 +103,7 @@ export const updateContactPut = async (req, res) => {
 export const updateContactPatch = async (req, res) => {
   const { id } = req.params;
 
-  const updatedContact = await patchContactById(id, req.body);
+  const updatedContact = await patchContactById(id, req.user._id);
 
   if (!updatedContact) {
     throw createError(404, 'Contact not found');
@@ -113,7 +118,7 @@ export const updateContactPatch = async (req, res) => {
 
 export const deleteContact = async (req, res) => {
   const { id } = req.params;
-  const removed = await removeContact(id);
+  const removed = await removeContact(id, req.user._id);
 
   if (!removed) {
     throw createError(404, 'Contact not found');

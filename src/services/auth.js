@@ -71,3 +71,7 @@ export const refreshSession = async (refreshToken) => {
 
   return tokens.accessToken;
 };
+
+export const logoutUser = async (sessionId) => {
+  await Session.findByIdAndDelete({ _id: sessionId });
+};
