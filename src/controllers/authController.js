@@ -1,40 +1,46 @@
-import { registerUser } from '../services/auth.js';
-import { loginUser } from '../services/auth.js';
-import { refreshSession } from '../services/auth.js';
 import createError from 'http-errors';
-import { logoutUser } from '../services/auth.js';
+import {
+  registerUser,
+  loginUser,
+  refreshSession,
+  logoutUser,
+} from '../services/auth.js';
 
+// РЕЄСТРАЦІЯ
 export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
 
   const userWithoutPassword = user.toObject();
   delete userWithoutPassword.password;
+
   res.status(201).json({
-    status: 201,
+    status: 'success',
     message: 'Successfully registered a user!',
     data: userWithoutPassword,
   });
 };
 
+// ЛОГІН
 export const loginUserController = async (req, res) => {
-  const accessToken = await loginUser(req.body);
+  const { accessToken, refreshToken } = await loginUser(req.body);
 
-  res.cookie('refreshToken', accessToken.refreshToken, {
+  res.cookie('refreshToken', refreshToken, {
     httpOnly: true,
     secure: true,
-    sameSite: 'none',
-    maxAge: 30 * 24 * 60 * 60 * 1000,
+    sameSite: 'None', // важливо для frontend на іншому домені
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 днів
   });
 
   res.status(200).json({
     status: 'success',
-    message: 'Successfully logged in an user!',
+    message: 'Successfully logged in a user!',
     data: {
-      accessToken: accessToken.accessToken,
+      accessToken,
     },
   });
 };
 
+// ОНОВЛЕННЯ СЕСІЇ
 export const refreshSessionController = async (req, res) => {
   const { refreshToken } = req.cookies;
 
@@ -42,22 +48,39 @@ export const refreshSessionController = async (req, res) => {
     throw createError(401, 'Refresh token is missing');
   }
 
-  const accessToken = await refreshSession(refreshToken);
+  const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+    await refreshSession(refreshToken);
+
+  // Перезаписуємо куку
+  res.cookie('refreshToken', newRefreshToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'None',
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+  });
 
   res.status(200).json({
     status: 'success',
     message: 'Successfully refreshed a session!',
-    data: { accessToken },
+    data: {
+      accessToken: newAccessToken,
+    },
   });
 };
 
+// ЛОГАУТ
 export const logoutUserController = async (req, res) => {
-  if (req.cookies.sessionId) {
-    await logoutUser(req.cookies.sessionId);
+  const { refreshToken } = req.cookies;
+
+  if (refreshToken) {
+    await logoutUser(refreshToken);
   }
 
-  res.clearCookie('sessionId');
-  res.clearCookie('refreshToken');
+  res.clearCookie('refreshToken', {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'None',
+  });
 
   res.status(204).send();
 };

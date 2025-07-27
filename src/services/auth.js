@@ -17,8 +17,6 @@ export const registerUser = async (payload) => {
   });
 };
 
-const { JWT_ACCESS_SECRET, JWT_REFRESH_SECRET } = process.env;
-
 export const loginUser = async ({ email, password }) => {
   const user = await UsersCollection.findOne({ email });
   if (!user) {
@@ -30,26 +28,28 @@ export const loginUser = async ({ email, password }) => {
     throw createError(401, 'Email or password is wrong');
   }
 
-  await Session.findOneAndDelete({ uid: user._id });
+  await Session.findOneAndDelete({ userId: user._id });
+  const tokens = createTokens({ userId: user._id });
 
-  const payload = { uid: user._id };
+  const accessTokenExpiresAt = new Date(Date.now() + 15 * 60 * 1000);
+  const refreshTokenExpiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
 
-  const accessToken = jwt.sign(payload, JWT_ACCESS_SECRET, {
-    expiresIn: '15m',
+  await Session.create({
+    userId: user._id,
+    accessToken: tokens.accessToken,
+    refreshToken: tokens.refreshToken,
+    accessTokenValidUntil: accessTokenExpiresAt,
+    refreshTokenValidUntil: refreshTokenExpiresAt,
   });
-  const refreshToken = jwt.sign(payload, JWT_REFRESH_SECRET, {
-    expiresIn: '30d',
-  });
 
-  await Session.create({ uid: user._id, token: refreshToken });
-
-  return { accessToken, refreshToken };
+  return tokens;
 };
+
 export const refreshSession = async (refreshToken) => {
   let payload;
 
   try {
-    payload = jwt.verify(refreshToken, process.env.REFRESH_SECRET);
+    payload = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
   } catch (createError) {
     throw createError(401, 'Invalid refresh token');
   }
@@ -64,14 +64,20 @@ export const refreshSession = async (refreshToken) => {
 
   const tokens = createTokens({ userId: payload.userId });
 
+  const accessTokenExpiresAt = new Date(Date.now() + 15 * 60 * 1000);
+  const refreshTokenExpiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+
   await Session.create({
     userId: payload.userId,
+    accessToken: tokens.accessToken,
     refreshToken: tokens.refreshToken,
+    accessTokenValidUntil: accessTokenExpiresAt,
+    refreshTokenValidUntil: refreshTokenExpiresAt,
   });
 
   return tokens.accessToken;
 };
 
 export const logoutUser = async (sessionId) => {
-  await Session.findByIdAndDelete({ _id: sessionId });
+  await Session.findByIdAndDelete(sessionId);
 };
