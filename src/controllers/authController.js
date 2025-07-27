@@ -6,7 +6,6 @@ import {
   logoutUser,
 } from '../services/auth.js';
 
-// РЕЄСТРАЦІЯ
 export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
 
@@ -20,15 +19,14 @@ export const registerUserController = async (req, res) => {
   });
 };
 
-// ЛОГІН
 export const loginUserController = async (req, res) => {
   const { accessToken, refreshToken } = await loginUser(req.body);
 
   res.cookie('refreshToken', refreshToken, {
     httpOnly: true,
     secure: true,
-    sameSite: 'None', // важливо для frontend на іншому домені
-    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 днів
+    sameSite: 'None',
+    maxAge: 30 * 24 * 60 * 60 * 1000,
   });
 
   res.status(200).json({
@@ -36,11 +34,11 @@ export const loginUserController = async (req, res) => {
     message: 'Successfully logged in a user!',
     data: {
       accessToken,
+      refreshToken,
     },
   });
 };
 
-// ОНОВЛЕННЯ СЕСІЇ
 export const refreshSessionController = async (req, res) => {
   const { refreshToken } = req.cookies;
 
@@ -51,7 +49,6 @@ export const refreshSessionController = async (req, res) => {
   const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
     await refreshSession(refreshToken);
 
-  // Перезаписуємо куку
   res.cookie('refreshToken', newRefreshToken, {
     httpOnly: true,
     secure: true,
@@ -68,7 +65,6 @@ export const refreshSessionController = async (req, res) => {
   });
 };
 
-// ЛОГАУТ
 export const logoutUserController = async (req, res) => {
   const { refreshToken } = req.cookies;
 
