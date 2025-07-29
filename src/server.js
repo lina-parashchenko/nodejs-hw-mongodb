@@ -19,12 +19,18 @@ const logger = pino({
 export function setupServer() {
   const app = express();
 
-  app.use(cors());
+  app.use(cookieParser());
+  app.use(
+    cors({
+      origin: process.env.CLIENT_URL,
+      credentials: true,
+    }),
+  );
   app.use(express.json());
   app.use('/contacts', contactsRouter);
   app.use('/auth', authRouter);
   app.use('/session', sessionRouter);
-  app.use(cookieParser());
+
   app.use(notFoundHandler);
   app.use(errorHandler);
 

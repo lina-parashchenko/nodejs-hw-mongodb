@@ -17,7 +17,7 @@ export const listContacts = async ({
       .sort({ [sortBy]: sortOrder })
       .skip(skip)
       .limit(perPage),
-    Contact.countDocuments(filter),
+    Contact.countDocuments(query),
   ]);
 
   const totalPages = Math.ceil(totalItems / perPage);
@@ -49,11 +49,11 @@ export async function updateContactById(contactId, contactData, userId) {
 }
 
 export async function patchContactById(contactId, contactData, userId) {
-  return Contact.findByIdAndUpdate({ _id: contactId, userId }, contactData, {
+  return Contact.findOneAndUpdate({ _id: contactId, userId }, contactData, {
     new: true,
   });
 }
 
 export async function removeContact(contactId, userId) {
-  return Contact.findByIdAndDelete({ _id: contactId, userId });
+  return Contact.findOneAndDelete({ _id: contactId, userId });
 }

@@ -5,16 +5,27 @@ import jwt from 'jsonwebtoken';
 import { Session } from '../models/sessionModel.js';
 import { createTokens } from '../helpers/createTokens.js';
 
+const { JWT_ACCESS_SECRET = 'access-secret' } = process.env;
+
 export const registerUser = async (payload) => {
-  const user = await UsersCollection.findOne({ email: payload.email });
-  if (user) throw createError(409, 'Email in use');
+  const existingUser = await UsersCollection.findOne({ email: payload.email });
+  if (existingUser) throw createError(409, 'Email in use');
 
   const encryptedPassword = await bcrypt.hash(payload.password, 10);
 
-  return await UsersCollection.create({
+  const user = await UsersCollection.create({
     ...payload,
     password: encryptedPassword,
   });
+
+  const token = jwt.sign({ userId: user._id }, JWT_ACCESS_SECRET, {
+    expiresIn: '1h',
+  });
+
+  user.token = token;
+  await user.save();
+
+  return user;
 };
 
 export const loginUser = async ({ email, password }) => {
@@ -75,9 +86,10 @@ export const refreshSession = async (refreshToken) => {
     refreshTokenValidUntil: refreshTokenExpiresAt,
   });
 
-  return tokens.accessToken;
+  return tokens;
 };
 
-export const logoutUser = async (sessionId) => {
-  await Session.findByIdAndDelete(sessionId);
+export const logoutUser = async (refreshToken) => {
+  const session = await Session.findOne({ refreshToken });
+  if (session) await Session.findByIdAndDelete(session._id);
 };

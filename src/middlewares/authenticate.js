@@ -1,11 +1,12 @@
 import jwt from 'jsonwebtoken';
 import createError from 'http-errors';
+import { UsersCollection } from '../models/userModel.js';
+import { Session } from '../models/sessionModel.js'; // перевір правильний шлях
 
-const { ACCESS_SECRET = 'access-secret' } = process.env;
+const { JWT_ACCESS_SECRET = 'access-secret' } = process.env;
 
-export const authenticate = (req, res, next) => {
+export const authenticate = async (req, res, next) => {
   const authHeader = req.headers.authorization || '';
-
   const [type, token] = authHeader.split(' ');
 
   if (type !== 'Bearer' || !token) {
@@ -13,7 +14,18 @@ export const authenticate = (req, res, next) => {
   }
 
   try {
-    const user = jwt.verify(token, ACCESS_SECRET);
+    const { userId } = jwt.verify(token, JWT_ACCESS_SECRET);
+
+    const session = await Session.findOne({ userId, accessToken: token });
+    if (!session) {
+      return next(createError(401, 'Invalid or expired token'));
+    }
+
+    const user = await UsersCollection.findById(userId);
+    if (!user) {
+      return next(createError(401, 'User not found'));
+    }
+
     req.user = user;
     next();
   } catch (error) {

@@ -13,7 +13,7 @@ export const registerUserController = async (req, res) => {
   delete userWithoutPassword.password;
 
   res.status(201).json({
-    status: 'success',
+    status: 200,
     message: 'Successfully registered a user!',
     data: userWithoutPassword,
   });
@@ -30,11 +30,10 @@ export const loginUserController = async (req, res) => {
   });
 
   res.status(200).json({
-    status: 'success',
+    status: 200,
     message: 'Successfully logged in a user!',
     data: {
       accessToken,
-      refreshToken,
     },
   });
 };
@@ -46,7 +45,7 @@ export const refreshSessionController = async (req, res) => {
     throw createError(401, 'Refresh token is missing');
   }
 
-  const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+  const { accessToken, refreshToken: newRefreshToken } =
     await refreshSession(refreshToken);
 
   res.cookie('refreshToken', newRefreshToken, {
@@ -57,10 +56,10 @@ export const refreshSessionController = async (req, res) => {
   });
 
   res.status(200).json({
-    status: 'success',
+    status: 200,
     message: 'Successfully refreshed a session!',
     data: {
-      accessToken: newAccessToken,
+      accessToken,
     },
   });
 };
