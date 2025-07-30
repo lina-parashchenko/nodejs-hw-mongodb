@@ -45,8 +45,9 @@ export const refreshSessionController = async (req, res) => {
     throw createError(401, 'Refresh token is missing');
   }
 
-  const { accessToken, refreshToken: newRefreshToken } =
-    await refreshSession(refreshToken);
+  const { accessToken, refreshToken: newRefreshToken } = await refreshSession(
+    refreshToken,
+  );
 
   res.cookie('refreshToken', newRefreshToken, {
     httpOnly: true,
@@ -64,18 +65,28 @@ export const refreshSessionController = async (req, res) => {
   });
 };
 
-export const logoutUserController = async (req, res) => {
-  const { refreshToken } = req.cookies;
+export const logoutUserController = async (req, res, next) => {
+  console.log('Cookies:', req.cookies);
+  try {
+    const { refreshToken } = req.cookies;
 
-  if (refreshToken) {
+    if (!refreshToken) {
+      throw createError(401, 'Refresh token not found in cookies');
+    }
+
     await logoutUser(refreshToken);
+
+    res.clearCookie('refreshToken', {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'None',
+    });
+
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully logged out!',
+    });
+  } catch (error) {
+    next(error);
   }
-
-  res.clearCookie('refreshToken', {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'None',
-  });
-
-  res.status(204).send();
 };

@@ -13,7 +13,7 @@ import {
 
 const router = express.Router();
 
-router.use('/', authenticate, ctrl.getAllContacts);
+router.use(authenticate);
 
 router.get('/', ctrlWrapper(ctrl.getAllContacts));
 router.get('/:id', isValidId, ctrlWrapper(ctrl.getContactByIdController));

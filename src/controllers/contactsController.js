@@ -88,7 +88,7 @@ export const createContact = async (req, res) => {
 
 export const updateContactPut = async (req, res) => {
   const { id } = req.params;
-  const updated = await updateContactById(id, req.user._id);
+  const updated = await updateContactById(id, req.body, req.user._id);
 
   if (!updated) {
     throw createError(404, 'Contact not found');
@@ -103,7 +103,7 @@ export const updateContactPut = async (req, res) => {
 export const updateContactPatch = async (req, res) => {
   const { id } = req.params;
 
-  const updatedContact = await patchContactById(id, req.user._id);
+  const updatedContact = await patchContactById(id, req.body, req.user._id);
 
   if (!updatedContact) {
     throw createError(404, 'Contact not found');

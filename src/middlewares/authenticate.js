@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import createError from 'http-errors';
 import { UsersCollection } from '../models/userModel.js';
-import { Session } from '../models/sessionModel.js'; // перевір правильний шлях
+import { Session } from '../models/sessionModel.js';
 
 const { JWT_ACCESS_SECRET = 'access-secret' } = process.env;
 

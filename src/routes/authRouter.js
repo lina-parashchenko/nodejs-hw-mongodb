@@ -10,7 +10,6 @@ import { validateBody } from '../middlewares/validateBody.js';
 import { registerUserSchema } from '../validation/authValidation.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { loginUserSchema } from '../validation/authValidation.js';
-import { authMiddleware } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
@@ -28,6 +27,6 @@ router.post(
 
 router.post('/refresh', ctrlWrapper(refreshSessionController));
 
-router.post('/logout', authMiddleware, ctrlWrapper(logoutUserController));
+router.post('/logout', ctrlWrapper(logoutUserController));
 
 export default router;

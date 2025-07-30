@@ -43,7 +43,7 @@ export async function addContact(contactData) {
 }
 
 export async function updateContactById(contactId, contactData, userId) {
-  return Contact.findByIdAndUpdate({ _id: contactId, userId }, contactData, {
+  return Contact.findOneAndUpdate({ _id: contactId, userId }, contactData, {
     new: true,
   });
 }
