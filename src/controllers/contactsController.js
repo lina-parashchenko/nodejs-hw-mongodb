@@ -7,6 +7,7 @@ import {
   updateContactById,
   removeContact,
 } from '../services/contacts.js';
+import { storage } from '../helpers/cloudinary.js';
 
 export const getAllContacts = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
@@ -15,14 +16,9 @@ export const getAllContacts = async (req, res) => {
   const sortOrder = req.query.sortOrder === 'desc' ? -1 : 1;
 
   const filter = {};
-
-  if (req.query.type) {
-    filter.contactType = req.query.type;
-  }
-
-  if (req.query.isFavourite !== undefined) {
+  if (req.query.type) filter.contactType = req.query.type;
+  if (req.query.isFavourite !== undefined)
     filter.isFavourite = req.query.isFavourite === 'true';
-  }
 
   const {
     data: contacts,
@@ -72,9 +68,18 @@ export const getContactByIdController = async (req, res) => {
 };
 
 export const createContact = async (req, res) => {
+  let photoUrl = null;
+
+  if (req.file) {
+    const { path } = req.file;
+    const uploaded = await storage(path);
+    photoUrl = uploaded.secure_url;
+  }
+
   const contactData = {
     ...req.body,
     userId: req.user._id,
+    photo: photoUrl,
   };
 
   const newContact = await addContact(contactData);
@@ -100,10 +105,19 @@ export const updateContactPut = async (req, res) => {
     data: { updated },
   });
 };
+
 export const updateContactPatch = async (req, res) => {
   const { id } = req.params;
 
-  const updatedContact = await patchContactById(id, req.body, req.user._id);
+  let updatedData = { ...req.body };
+
+  if (req.file) {
+    const { path } = req.file;
+    const uploaded = await storage(path);
+    updatedData.photo = uploaded.secure_url;
+  }
+
+  const updatedContact = await patchContactById(id, updatedData, req.user._id);
 
   if (!updatedContact) {
     throw createError(404, 'Contact not found');

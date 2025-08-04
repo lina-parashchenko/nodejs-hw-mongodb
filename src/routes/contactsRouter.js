@@ -5,11 +5,13 @@ import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 
 import { validateBody } from '../middlewares/validateBody.js';
 import { isValidId } from '../middlewares/isValidId.js';
+import { upload } from '../middlewares/upload.js';
 
 import {
   addContactSchema,
   updateContactSchema,
 } from '../validation/contactsSchemas.js';
+import { addContact, updateContactById } from '../services/contacts.js';
 
 const router = express.Router();
 
@@ -36,5 +38,13 @@ router.patch(
 );
 
 router.delete('/:id', isValidId, ctrlWrapper(ctrl.deleteContact));
+
+router.post('/', authenticate, upload.single('photo'), addContact);
+router.patch(
+  '/:contactId',
+  authenticate,
+  upload.single('photo'),
+  updateContactById,
+);
 
 export default router;
