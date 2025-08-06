@@ -71,15 +71,13 @@ export const createContact = async (req, res) => {
   let photoUrl = null;
 
   if (req.file) {
-    const { path } = req.file;
-    const uploaded = await storage(path);
-    photoUrl = uploaded.secure_url;
+    photoUrl = req.file.path;
   }
 
   const contactData = {
     ...req.body,
     userId: req.user._id,
-    photo: photoUrl,
+    ...(photoUrl && { photo: photoUrl }),
   };
 
   const newContact = await addContact(contactData);

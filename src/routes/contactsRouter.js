@@ -11,7 +11,6 @@ import {
   addContactSchema,
   updateContactSchema,
 } from '../validation/contactsSchemas.js';
-import { addContact, updateContactById } from '../services/contacts.js';
 
 const router = express.Router();
 
@@ -21,6 +20,7 @@ router.get('/', ctrlWrapper(ctrl.getAllContacts));
 router.get('/:id', isValidId, ctrlWrapper(ctrl.getContactByIdController));
 router.post(
   '/',
+  upload.single('photo'),
   validateBody(addContactSchema),
   ctrlWrapper(ctrl.createContact),
 );
@@ -33,18 +33,11 @@ router.put(
 router.patch(
   '/:id',
   isValidId,
+  upload.single('photo'),
   validateBody(updateContactSchema),
   ctrlWrapper(ctrl.updateContactPatch),
 );
 
 router.delete('/:id', isValidId, ctrlWrapper(ctrl.deleteContact));
-
-router.post('/', authenticate, upload.single('photo'), addContact);
-router.patch(
-  '/:contactId',
-  authenticate,
-  upload.single('photo'),
-  updateContactById,
-);
 
 export default router;

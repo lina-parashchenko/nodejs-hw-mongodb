@@ -27,6 +27,7 @@ export function setupServer() {
     }),
   );
   app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
   app.use('/contacts', contactsRouter);
   app.use('/auth', authRouter);
   app.use('/session', sessionRouter);
