@@ -1,0 +1,23 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Contact Book API
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description: |
+    This is an API documentation for the Contact Book backend application.
+tags:
+  - name: auth
+    description: User authentication
+  - name: contacts
+    description: Managing contacts
+servers:
+  - url: http://localhost:3000l
+  - url: https://your-deployment-url.onrender.com
+paths: {} # залишиш поки порожнім або поступово додаватимеш endpoints
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
