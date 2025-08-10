@@ -15,8 +15,8 @@ tags:
     description: Managing contacts
 
 servers:
+  - url: https://nodejs-hw-mongodb-7-qxr1.onrender.com
   - url: http://localhost:3000
-  - url: https://your-deployment-url.onrender.com
 
 paths:
   /contacts:

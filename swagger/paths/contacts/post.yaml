@@ -1,6 +1,6 @@
 post:
   tags:
-    - Contacts
+    - contacts
   summary: Create a new contact
   operationId: createContact
   description: Add a new contact to the database.

@@ -1,6 +1,6 @@
 delete:
   tags:
-    - Contacts
+    - contacts
   summary: Delete a contact
   operationId: deleteContact
   description: Remove a contact from the database by ID.

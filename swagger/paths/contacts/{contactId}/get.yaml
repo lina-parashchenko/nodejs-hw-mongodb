@@ -1,6 +1,6 @@
 get:
   tags:
-    - Contacts
+    - contacts
   summary: Get contact by ID
   operationId: getContactById
   description: Retrieve a single contact from the database using its unique ID.
