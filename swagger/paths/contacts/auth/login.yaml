@@ -1,5 +1,4 @@
-tags:
-  - auth
+tags: -auth
 summary: User login
 operationId: loginUser
 description: Authenticate user and receive a JWT token.

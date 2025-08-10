@@ -1,6 +1,5 @@
 patch:
-  tags:
-    - contacts
+  tags: -contacts
   summary: Update a contact
   operationId: updateContact
   description: Update an existing contact by ID.

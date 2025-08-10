@@ -1,6 +1,5 @@
 post:
-  tags:
-    - contacts
+  tags: -contacts
   summary: Create a new contact
   operationId: createContact
   description: Add a new contact to the database.
@@ -10,14 +9,11 @@ post:
     required: true
     content:
       application/json:
-        schema:
-          $ref: '../../components/schemas/ContactCreate.yaml'
+        schema: $ref:'../../components/schemas/ContactCreate.yaml'
   responses:
     '201':
       description: Contact created successfully
       content:
         application/json:
-          schema:
-            $ref: '../../components/schemas/Contact.yaml'
-    '400':
-      $ref: '../../components/responses/ValidationError.yaml'
+          schema: $ref:'../../components/schemas/Contact.yaml'
+    '400': $ref:'../../components/responses/ValidationError.yaml'
