@@ -1,0 +1,17 @@
+type: object
+properties:
+  id:
+    type: string
+    example: '64c7c5f3e13a3a001f7e3d8f'
+  name:
+    type: string
+    example: 'Piter Pane'
+  email:
+    type: string
+    example: 'Piter1987@example.com'
+  phone:
+    type: string
+    example: '+380971234567'
+required:
+  - name
+  - email

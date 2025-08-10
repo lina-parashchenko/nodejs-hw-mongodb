@@ -7,15 +7,37 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   description: |
     This is an API documentation for the Contact Book backend application.
+
 tags:
   - name: auth
     description: User authentication
   - name: contacts
     description: Managing contacts
+
 servers:
-  - url: http://localhost:3000l
+  - url: http://localhost:3000
   - url: https://your-deployment-url.onrender.com
-paths: {} # залишиш поки порожнім або поступово додаватимеш endpoints
+
+paths:
+  /contacts:
+    get:
+      $ref: '../swagger/paths/contacts/get.yaml'
+    post:
+      $ref: '../swagger/paths/contacts/post.yaml'
+  /contacts/{contactId}:
+    get:
+      $ref: '../swagger/paths/contacts/{contactId}/get.yaml'
+    patch:
+      $ref: '../swagger/paths/contacts/{contactId}/patch.yaml'
+    delete:
+      $ref: '../swagger/paths/contacts/{contactId}/delete.yaml'
+  /auth/register:
+    post:
+      $ref: '../swagger/paths/auth/register.yaml'
+  /auth/login:
+    post:
+      $ref: '../swagger/paths/auth/login.yaml'
+
 components:
   securitySchemes:
     bearerAuth:

@@ -1,0 +1,9 @@
+description: Contact deleted successfully
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'Contact deleted'

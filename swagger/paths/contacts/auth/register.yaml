@@ -1,0 +1,28 @@
+tags:
+  - auth
+summary: Register a new user
+operationId: registerUser
+description: Create a new user account with email and password.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - email
+          - password
+        properties:
+          email:
+            type: string
+            format: email
+            example: user@example.com
+          password:
+            type: string
+            minLength: 6
+            example: strongPassword123
+responses:
+  '201':
+    description: User successfully registered
+  '400':
+    description: Invalid request data

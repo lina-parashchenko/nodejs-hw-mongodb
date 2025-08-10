@@ -1,0 +1,20 @@
+get:
+  tags:
+    - Contacts
+  summary: Get all contacts
+  operationId: getContacts
+  description: Retrieve a list of contacts with optional pagination.
+  security:
+    - bearerAuth: []
+  parameters:
+    - $ref: '../../components/parameters/pagination.yaml#/0'
+    - $ref: '../../components/parameters/pagination.yaml#/1'
+  responses:
+    '200':
+      description: A list of contacts
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../../components/schemas/Contact.yaml'
