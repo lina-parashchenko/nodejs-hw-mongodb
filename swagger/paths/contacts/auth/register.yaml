@@ -1,4 +1,5 @@
-tags: -auth
+tags:
+  - auth
 summary: Register a new user
 operationId: registerUser
 description: Create a new user account with email and password.

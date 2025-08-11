@@ -1,12 +1,13 @@
 delete:
-  tags: -contacts
+  tags:
+    - contacts
   summary: Delete a contact
   operationId: deleteContact
   description: Remove a contact from the database by ID.
   security:
     - bearerAuth: []
   parameters:
-    - $ref:'../../../components/parameters/contactId.yaml'
+    - $ref: '../../../components/parameters/contactId.yaml'
   responses:
     '200': $ref:'../../../components/responses/Deleted.yaml'
     '404': $ref:'../../../components/responses/NotFound.yaml'

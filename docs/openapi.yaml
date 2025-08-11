@@ -25,18 +25,13 @@ paths:
     post:
       $ref: '../swagger/paths/contacts/post.yaml'
   /contacts/{contactId}:
-    get:
-      $ref: '../swagger/paths/contacts/{contactId}/get.yaml'
-    patch:
-      $ref: '../swagger/paths/contacts/{contactId}/patch.yaml'
-    delete:
-      $ref: '../swagger/paths/contacts/{contactId}/delete.yaml'
+    get: $ref:'../swagger/paths/contacts/{contactId}/get.yaml'
+    patch: $ref:'../swagger/paths/contacts/{contactId}/patch.yaml'
+    delete: $ref:'../swagger/paths/contacts/{contactId}/delete.yaml'
   /auth/register:
-    post:
-      $ref: '../swagger/paths/auth/register.yaml'
+    post: $ref:'../swagger/paths/auth/register.yaml'
   /auth/login:
-    post:
-      $ref: '../swagger/paths/auth/login.yaml'
+    post: $ref:'../swagger/paths/auth/login.yaml'
 
 components:
   securitySchemes:
