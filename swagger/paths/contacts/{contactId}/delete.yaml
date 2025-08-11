@@ -9,5 +9,7 @@ delete:
   parameters:
     - $ref: '../../../components/parameters/contactId.yaml'
   responses:
-    '200': $ref:'../../../components/responses/Deleted.yaml'
-    '404': $ref:'../../../components/responses/NotFound.yaml'
+    '200':
+      $ref: '../../../components/responses/Deleted.yaml'
+    '404':
+      $ref: '../../../components/responses/NotFound.yaml'
