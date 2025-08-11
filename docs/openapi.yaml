@@ -18,30 +18,32 @@ servers:
   - url: https://nodejs-hw-mongodb-7-qxr1.onrender.com
   - url: http://localhost:3000
 
-/contacts:
-  get:
-    $ref: './paths/contacts/getContacts.yaml'
-  post:
-    $ref: './paths/contacts/createContact.yaml'
+paths:
+  /contacts:
+    get:
+      $ref: './paths/contacts/getContacts.yaml'
+    post:
+      $ref: './paths/contacts/createContact.yaml'
 
-/contacts/{contactId}:
-  get:
-    $ref: './paths/contacts/getContactById.yaml'
-  patch:
-    $ref: './paths/contacts/updateContact.yaml'
-  delete:
-    $ref: './paths/contacts/deleteContact.yaml'
+  /contacts/{contactId}:
+    get:
+      $ref: './paths/contacts/getContactById.yaml'
+    patch:
+      $ref: './paths/contacts/updateContact.yaml'
+    delete:
+      $ref: './paths/contacts/deleteContact.yaml'
 
-/auth/login:
-  post:
-    $ref: './paths/auth/loginUser.yaml'
+  /auth/login:
+    post:
+      $ref: './paths/auth/loginUser.yaml'
 
-/auth/register:
-  post:
-    $ref: './paths/auth/registerUser.yaml'
+  /auth/register:
+    post:
+      $ref: './paths/auth/registerUser.yaml'
 
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
+      bearerFormat: JWT
