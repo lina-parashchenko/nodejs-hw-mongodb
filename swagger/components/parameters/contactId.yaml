@@ -4,4 +4,4 @@ required: true
 description: ID of the contact
 schema:
   type: string
-example: '64c7c5f3e13a3a001f7e3d8f'
+  example: 64c7c5f3e13a3a001f7e3d8f

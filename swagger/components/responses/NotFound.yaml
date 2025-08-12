@@ -1,3 +1,4 @@
+NotFound:
 description: Contact not found
 content:
   application/json:
