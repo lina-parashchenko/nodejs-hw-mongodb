@@ -16,5 +16,4 @@ get:
         application/json:
           schema:
             type: array
-            items:
-            $ref:'../../components/schemas/Contact.yaml'
+            items: $ref:'../../components/schemas/Contact.yaml'
