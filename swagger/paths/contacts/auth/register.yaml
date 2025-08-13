@@ -3,6 +3,7 @@ tags:
 summary: Register a new user
 operationId: registerUser
 description: Create a new user account with email and password.
+security: []
 requestBody:
   required: true
   content:
