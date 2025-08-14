@@ -1,29 +1,65 @@
-tags:
-  - auth
-summary: Register a new user
-operationId: registerUser
-description: Create a new user account with email and password.
-security: []
-requestBody:
-  required: true
-  content:
-    application/json:
-      schema:
-        type: object
-        required:
-          - email
-          - password
-        properties:
-          email:
-            type: string
-            format: email
-            example: user@example.com
-          password:
-            type: string
-            minLength: 6
-            example: strongPassword123
-responses:
-  '201':
-    description: User successfully registered
-  '400':
-    description: Invalid request data
+post:
+  tags:
+    - auth
+  summary: Register a new user
+  operationId: registerUser
+  description: Create a new user account with email and password.
+  security: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - email
+            - password
+          properties:
+            email:
+              type: string
+              format: email
+              example: user@example.com
+            password:
+              type: string
+              minLength: 6
+              example: strongPassword123
+  responses:
+    '201':
+      description: User successfully registered
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 201
+              message:
+                type: string
+                example: User successfully registered
+              data:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 64c1234abc...
+                  email:
+                    type: string
+                    format: email
+                    example: user@example.com
+    '400':
+      description: Invalid request data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              message:
+                type: string
+                example: Email already exists
+              data:
+                type: 'null'
+                example: null

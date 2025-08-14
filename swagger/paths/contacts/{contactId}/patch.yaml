@@ -10,7 +10,7 @@ parameters:
 requestBody:
   required: true
   content:
-    application/json:
+    multipart/formdata:
       schema:
         $ref: '../../../components/schemas/ContactUpdate.yaml'
 responses:

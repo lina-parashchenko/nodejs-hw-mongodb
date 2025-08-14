@@ -1,18 +1,109 @@
-- name: page
+page:
   in: query
-  required: false
-  description: Page number for pagination
+  name: page
   schema:
     type: integer
     minimum: 1
     example: 1
+    default: 1
+  description: Page number
 
-- name: limit
+perPage:
   in: query
-  required: false
-  description: Number of items per page
+  name: perPage
   schema:
     type: integer
-    minimum: 1
-    maximum: 100
-    example: 10
+    example: 20
+    default: 10
+  description: Number of contacts per page
+
+sortBy:
+  in: query
+  name: sortBy
+  schema:
+    type: string
+    enum: [name, phoneNumber, email]
+    example: name
+    default: _id
+  description: Sort contacts by field name
+
+sortOrder:
+  in: query
+  name: sortOrder
+  schema:
+    type: string
+    enum: [asc, desc]
+    example: desc
+    default: asc
+  description: Sort order
+
+isFavourite:
+  in: query
+  name: isFavourite
+  schema:
+    type: boolean
+    example: true
+    default: false
+  description: Is contact favourite
+
+contactType:
+  in: query
+  name: contactType
+  schema:
+    type: string
+    enum: [work, home, personal]
+    default: personal
+    example: work
+  description: Type of contact
+responses:
+  '200':
+    description: Contacts successfully found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Contacts successfully found
+            data:
+              type: object
+              properties:
+                contacts:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 64c1234abc...
+                      name:
+                        type: string
+                        example: John Doe
+                      phoneNumber:
+                        type: string
+                        example: +380991234567
+                      email:
+                        type: string
+                        example: john@example.com
+                page:
+                  type: integer
+                  example: 1
+                perPage:
+                  type: integer
+                  example: 10
+                totalItems:
+                  type: integer
+                  example: 0
+                totalPages:
+                  type: integer
+                  example: 0
+                hasPreviousPage:
+                  type: boolean
+                  example: false
+                hasNextPage:
+                  type: boolean
+                  example: false
