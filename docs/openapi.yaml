@@ -123,10 +123,10 @@ components:
           example: 64c7c5f3e13a3a001f7e3d8f
         name:
           type: string
-          example: John Doe
+          example: Piter Pane
         email:
           type: string
-          example: john@example.com
+          example: piter1987@example.com
         phone:
           type: string
           example: +380501234567

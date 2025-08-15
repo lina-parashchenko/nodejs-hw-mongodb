@@ -10,7 +10,7 @@ parameters:
 requestBody:
   required: true
   content:
-    multipart/formdata:
+    multipart/form-data:
       schema:
         $ref: '../../../components/schemas/ContactUpdate.yaml'
 responses:
@@ -21,4 +21,4 @@ responses:
         schema:
           $ref: '../../../components/schemas/Contact.yaml'
   '404':
-    $ref: '../../../components/responses/401.yaml'
+    $ref: '../../../components/responses/404.yaml'

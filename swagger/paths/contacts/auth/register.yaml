@@ -48,7 +48,7 @@ post:
                     format: email
                     example: user@example.com
     '400':
-      description: Invalid request data
+      description: Bad request
       content:
         application/json:
           schema:

@@ -1,36 +1,24 @@
 tags:
   - Contacts
-summary: Get contact by ID
-operationId: getContactById
-description: Retrieve a single contact from the database using its unique ID.
+summary: Update a contact
+operationId: updateContact
+description: Update an existing contact by ID.
 security:
   - bearerAuth: []
 parameters:
   - $ref: '../../../components/parameters/contactId.yaml'
+requestBody:
+  required: true
+  content:
+    multipart/form-data:
+      schema:
+        $ref: '../../../components/schemas/ContactUpdate.yaml'
 responses:
   '200':
-    description: Contact found successfully
+    description: Contact updated successfully
     content:
       application/json:
         schema:
-          type: object
-          required:
-            - status
-            - message
-            - data
-          properties:
-            status:
-              type: integer
-              example: 200
-            message:
-              type: string
-              example: Successfully found contact with id 688b79cb7b069a8584651744!
-            data:
-              type: object
           $ref: '../../../components/schemas/Contact.yaml'
   '404':
     $ref: '../../../components/responses/404.yaml'
-  '400':
-    $ref: '../../../components/responses/400.yaml'
-  '401':
-    $ref: '../../../components/responses/401.yaml'
