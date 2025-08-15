@@ -62,6 +62,10 @@ responses:
       application/json:
         schema:
           type: object
+          required:
+            - status
+            - message
+            - data
           properties:
             status:
               type: integer
@@ -71,24 +75,19 @@ responses:
               example: Contacts successfully found
             data:
               type: object
+              required:
+                - data
+                - page
+                - perPage
+                - totalItems
+                - totalPages
+                - hasNextPage
+                - hasPreviousPage
               properties:
-                contacts:
+                data:
                   type: array
                   items:
-                    type: object
-                    properties:
-                      id:
-                        type: string
-                        example: 64c1234abc...
-                      name:
-                        type: string
-                        example: John Doe
-                      phoneNumber:
-                        type: string
-                        example: +380991234567
-                      email:
-                        type: string
-                        example: john@example.com
+                    $ref: '../../components/schemas/Contact.yaml'
                 page:
                   type: integer
                   example: 1
@@ -97,13 +96,12 @@ responses:
                   example: 10
                 totalItems:
                   type: integer
-                  example: 0
+                  example: 20
                 totalPages:
                   type: integer
-                  example: 0
+                  example: 3
                 hasPreviousPage:
                   type: boolean
                   example: false
-                hasNextPage:
-                  type: boolean
-                  example: false
+      '401':
+        $ref: '../../components/responses/401.yaml'
