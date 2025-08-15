@@ -1,11 +1,27 @@
 type: object
 properties:
   name:
+    description: "Contact's name"
     type: string
-    example: 'Piter Pane'
+    example: 'John Doe'
+  phoneNumber:
+    description: "Contact's phone number"
+    type: string
+    example: +380501234567
   email:
+    description: "Contact's email"
     type: string
-    example: 'Piter1987@example.com'
-  phone:
+    example: example@example.com
+  isFavourite:
+    description: 'Is contact favourite'
+    type: boolean
+    example: false
+  contactType:
+    description: 'Type of contact'
     type: string
-    example: '+380971234567'
+    enum: ['work', 'home', 'personal']
+  photo:
+    description: "Link to contact's photo"
+    type: string
+    format: binary
+    example: https://res.cloudinary.com/uqwgdu/image/upload/image.png

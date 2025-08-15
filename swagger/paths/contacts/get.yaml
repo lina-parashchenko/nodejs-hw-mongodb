@@ -49,8 +49,4 @@ responses:
                     type: boolean
                     example: true
     '400':
-      description: Bad request - invalid email or password
-      content:
-      application/json:
-      schema:
-        $ref: '../../components/responses/ValidationError.yaml'
+      $ref: '../../components/responses/ValidationError.yaml'

@@ -21,4 +21,4 @@ responses:
         schema:
           $ref: '../../../components/schemas/Contact.yaml'
   '404':
-    $ref: '../../../components/responses/NotFound.yaml'
+    $ref: '../../../components/responses/401.yaml'

@@ -13,23 +13,24 @@ requestBody:
         $ref: '../../components/schemas/ContactCreate.yaml'
 responses:
   '201':
-    description: Contact created successfully
+    description: Successfully created a contact
     content:
       application/json:
         schema:
           type: object
+          required:
+            - status
+            - message
+            - data
           properties:
             status:
               type: integer
               example: 201
             message:
               type: string
-              example: Contact created successfully
+              example: Successfully created a contact!
             data:
+              type: object
               $ref: '../../components/schemas/Contact.yaml'
   '400':
-    description: Validation error
-    content:
-      application/json:
-        schema:
-          $ref: '../../components/responses/ValidationError.yaml'
+    $ref: '../../components/responses/400.yaml'
