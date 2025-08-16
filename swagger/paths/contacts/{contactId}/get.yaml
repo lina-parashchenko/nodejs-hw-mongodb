@@ -1,28 +1,50 @@
 tags:
-  - contacts
-summary: Update a contact
-operationId: updateContact
-description: Update an existing contact by ID.
+  - Contacts
+summary: Get contact by id
+operationId: getContact
+description: Get contact by id
 security:
   - bearerAuth: []
 parameters:
-  - $ref: '../../../components/parameters/contactId.yaml'
-requestBody:
-required: true
-content:
-  multipart/form-data:
+  - in: path
+    name: contactId
+    required: true
     schema:
-      $ref: '../../../components/schemas/ContactUpdate.yaml'
+      type: string
+      example: 689a4c53a949749869605279
 responses:
   '200':
-    description: Contact updated successfully
+    description: Successfully get contact by id
     content:
       application/json:
         schema:
-          $ref: '../../../components/schemas/contact.yaml'
-  '400':
-    $ref: '../../../components/responses/400.yaml'
-  '401':
-    $ref: '../../../components/responses/401.yaml'
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully get contact
+            data:
+              $ref: ../../../components/schemas/contact.yaml
   '404':
-    $ref: '../../../components/responses/404.yaml'
+    description: Contact not found
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+          properties:
+            status:
+              type: integer
+              example: 404
+            message:
+              type: string
+              example: Contact not found

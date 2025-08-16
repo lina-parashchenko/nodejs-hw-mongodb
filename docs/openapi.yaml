@@ -78,27 +78,7 @@ paths:
 
   /contacts/{contactId}:
     get:
-      tags:
-        - contacts
-      summary: Get contact by ID
-      parameters:
-        - $ref: ../swagger/components/parameters/contactId.yaml
-      responses:
-        '200':
-          description: Contact successfully found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: integer
-                    example: 200
-                  message:
-                    type: string
-                    example: Contact successfully found
-                  data:
-                    $ref: '#/components/schemas/Contact'
+      $ref: '../swagger/paths/contacts/{contactId}/get.yaml'
     patch:
       $ref: '../swagger/paths/contacts/{contactId}/patch.yaml'
     delete:

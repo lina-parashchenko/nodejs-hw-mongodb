@@ -23,4 +23,4 @@ content:
               type: array
               items:
                 type: string
-              example: '\"email\" is required'
+              example: '"email" is required'
