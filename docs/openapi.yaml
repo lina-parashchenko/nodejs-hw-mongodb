@@ -24,55 +24,7 @@ security:
 paths:
   /contacts:
     get:
-      tags:
-        - contacts
-      summary: Get all contacts
-      parameters:
-        - $ref: '../swagger/components/parameters/pagination.yaml#/page'
-        - $ref: '../swagger/components/parameters/pagination.yaml#/perPage'
-        - $ref: '../swagger/components/parameters/pagination.yaml#/sortOrder'
-        - $ref: '../swagger/components/parameters/pagination.yaml#/isFavourite'
-        - $ref: '../swagger/components/parameters/pagination.yaml#/contactType'
-        - $ref: '../swagger/components/parameters/pagination.yaml#/sortBy'
-      responses:
-        '200':
-          description: Contacts successfully found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: integer
-                    example: 200
-                  message:
-                    type: string
-                    example: Contacts successfully found
-                  data:
-                    type: object
-                    properties:
-                      contacts:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/Contact'
-                      page:
-                        type: integer
-                        example: 1
-                      perPage:
-                        type: integer
-                        example: 10
-                      totalItems:
-                        type: integer
-                        example: 25
-                      totalPages:
-                        type: integer
-                        example: 3
-                      hasPreviousPage:
-                        type: boolean
-                        example: false
-                      hasNextPage:
-                        type: boolean
-                        example: true
+      $ref: '../swagger/paths/contacts/get.yaml'
     post:
       $ref: '../swagger/paths/contacts/post.yaml'
 
@@ -94,28 +46,3 @@ components:
     bearerAuth:
       type: http
       scheme: bearer
-  schemas:
-    Contact:
-      type: object
-      properties:
-        _id:
-          type: string
-          example: 64c7c5f3e13a3a001f7e3d8f
-        name:
-          type: string
-          example: Piter Pane
-        email:
-          type: string
-          example: piter1987@example.com
-        phone:
-          type: string
-          example: +380501234567
-        contactType:
-          type: string
-          example: work
-        isFavourite:
-          type: boolean
-          example: false
-        photo:
-          type: string
-          example: https://res.cloudinary.com/demo/image/upload/sample.jpg
