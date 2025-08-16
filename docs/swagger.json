@@ -177,21 +177,39 @@
     "/contacts/{contactId}": {
       "get": {
         "tags": [
-          "contacts"
+          "Contacts"
         ],
-        "summary": "Get contact by ID",
+        "summary": "Get contact by id",
+        "operationId": "getContact",
+        "description": "Get contact by id",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
-            "$ref": "#/components/parameters/contactId"
+            "in": "path",
+            "name": "contactId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "689a4c53a949749869605279"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Contact successfully found",
+            "description": "Successfully get contact by id",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -199,10 +217,34 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Contact successfully found"
+                      "example": "Successfully get contact"
                     },
                     "data": {
-                      "$ref": "#/components/schemas/Contact"
+                      "$ref": "#/components/schemas/contact"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Contact not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 404
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Contact not found"
                     }
                   }
                 }
@@ -729,7 +771,7 @@
                       "items": {
                         "type": "string"
                       },
-                      "example": "\\\"email\\\" is required"
+                      "example": "\"email\" is required"
                     }
                   }
                 }
