@@ -9,10 +9,10 @@ info:
     This is an API documentation for the Contact Book backend application.
 
 tags:
-  - name: Auth
-    description: User authentication and registration
   - name: Contacts
     description: Managing contacts
+  - name: Auth
+    description: User authentication and registration
 
 servers:
   - url: https://nodejs-hw-mongodb-7-qxr1.onrender.com
