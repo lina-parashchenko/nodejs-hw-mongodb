@@ -1,5 +1,5 @@
 tags:
-  - Contacts
+  - contacts
 summary: Get all contacts
 operationId: getContacts
 description: Retrieve a list of contacts with optional pagination.
@@ -32,7 +32,7 @@ responses:
                 contacts:
                   type: array
                   items:
-                    $ref: '../../components/schemas/Contact.yaml'
+                    $ref: '../../components/schemas/contact.yaml'
                 page:
                   type: integer
                   example: 1

@@ -24,11 +24,11 @@
   ],
   "tags": [
     {
-      "name": "Contacts",
+      "name": "contacts",
       "description": "Managing contacts"
     },
     {
-      "name": "Auth",
+      "name": "auth",
       "description": "User authentication and registration"
     }
   ],
@@ -36,7 +36,7 @@
     "/contacts": {
       "get": {
         "tags": [
-          "Contacts"
+          "contacts"
         ],
         "summary": "Get all contacts",
         "parameters": [
@@ -119,7 +119,7 @@
       },
       "post": {
         "tags": [
-          "Contacts"
+          "contacts"
         ],
         "summary": "Create a new contact",
         "operationId": "createContact",
@@ -161,7 +161,7 @@
                       "example": "Successfully created a contact!"
                     },
                     "data": {
-                      "$ref": "#/components/schemas/Contact-2"
+                      "$ref": "#/components/schemas/contact"
                     }
                   }
                 }
@@ -177,7 +177,7 @@
     "/contacts/{contactId}": {
       "get": {
         "tags": [
-          "Contacts"
+          "contacts"
         ],
         "summary": "Get contact by ID",
         "parameters": [
@@ -213,7 +213,7 @@
       },
       "patch": {
         "tags": [
-          "Contacts"
+          "contacts"
         ],
         "summary": "Update a contact",
         "operationId": "updateContact",
@@ -244,7 +244,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Contact-2"
+                  "$ref": "#/components/schemas/contact"
                 }
               }
             }
@@ -262,7 +262,7 @@
       },
       "delete": {
         "tags": [
-          "Contacts"
+          "contacts"
         ],
         "summary": "Delete a contact",
         "operationId": "deleteContact",
@@ -544,7 +544,7 @@
           "email"
         ]
       },
-      "Contact-2": {
+      "contact": {
         "type": "object",
         "properties": {
           "id": {

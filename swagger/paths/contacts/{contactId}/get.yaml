@@ -1,5 +1,5 @@
 tags:
-  - Contacts
+  - contacts
 summary: Update a contact
 operationId: updateContact
 description: Update an existing contact by ID.
@@ -8,18 +8,18 @@ security:
 parameters:
   - $ref: '../../../components/parameters/contactId.yaml'
 requestBody:
-  required: true
-  content:
-    multipart/form-data:
-      schema:
-        $ref: '../../../components/schemas/ContactUpdate.yaml'
+required: true
+content:
+  multipart/form-data:
+    schema:
+      $ref: '../../../components/schemas/ContactUpdate.yaml'
 responses:
   '200':
     description: Contact updated successfully
     content:
       application/json:
         schema:
-          $ref: '../../../components/schemas/Contact.yaml'
+          $ref: '../../../components/schemas/contact.yaml'
   '400':
     $ref: '../../../components/responses/400.yaml'
   '401':

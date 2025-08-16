@@ -9,9 +9,9 @@ info:
     This is an API documentation for the Contact Book backend application.
 
 tags:
-  - name: Contacts
+  - name: contacts
     description: Managing contacts
-  - name: Auth
+  - name: auth
     description: User authentication and registration
 
 servers:
@@ -25,7 +25,7 @@ paths:
   /contacts:
     get:
       tags:
-        - Contacts
+        - contacts
       summary: Get all contacts
       parameters:
         - $ref: '../swagger/components/parameters/pagination.yaml#/page'
@@ -79,7 +79,7 @@ paths:
   /contacts/{contactId}:
     get:
       tags:
-        - Contacts
+        - contacts
       summary: Get contact by ID
       parameters:
         - $ref: ../swagger/components/parameters/contactId.yaml
