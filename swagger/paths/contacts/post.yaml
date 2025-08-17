@@ -13,7 +13,7 @@ requestBody:
         $ref: '../../components/schemas/ContactCreate.yaml'
 responses:
   '201':
-    description: Successfully created a contact
+    description: Created a contact
     content:
       application/json:
         schema:
@@ -27,9 +27,13 @@ responses:
               type: integer
               example: 201
             message:
-              type: string
-              example: Successfully created a contact!
+              type: array
+              items:
+                type: string
+              example: Contact created successfully
             data:
               $ref: ../../components/schemas/contact.yaml
   '400':
     $ref: '../../components/responses/400.yaml'
+  '401':
+    $ref: ../../components/responses/401.yaml

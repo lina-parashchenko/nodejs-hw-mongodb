@@ -3,11 +3,11 @@ properties:
   name:
     description: "Contact's name"
     type: string
-    example: 'John Doe'
+    example: 'Piter Pane'
   phoneNumber:
     description: "Contact's phone number"
     type: string
-    example: +380501234567
+    example: +380992345698
   email:
     description: "Contact's email"
     type: string

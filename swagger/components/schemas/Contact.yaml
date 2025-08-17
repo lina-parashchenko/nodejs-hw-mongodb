@@ -1,17 +1,53 @@
 type: object
+required:
+  - _id
+  - name
+  - phoneNumber
+  - contactType
+  - userId
+  - photo
+  - createdAt
+  - updatedAt
 properties:
-  id:
+  _id:
     type: string
-    example: '64c7c5f3e13a3a001f7e3d8f'
+    description: Contact id
+    example: 689a4c53a949749869605279
   name:
     type: string
-    example: 'Piter Pane'
+    description: Contact name
+    example: Piter Pane
+  phoneNumber:
+    type: string
+    description: Contact phone number
+    example: +380994562313
   email:
     type: string
-    example: 'Piter1987@example.com'
-  phone:
+    description: Contact email
+    example: Piter1987@mail.com
+  isFavourite:
+    type: boolean
+    description: Contact is marked as favourite (true — added to favourites, false — not)
+    example: true
+    default: false
+  contactType:
     type: string
-    example: '+380971234567'
-required:
-  - name
-  - email
+    description: Type of contact
+    enum: ['work', 'home', 'personal']
+    default: 'personal'
+  userId:
+    type: string
+    description: Contact userID
+    example: 689a4c53a949749869605279
+  photo:
+    type: string
+    description: Contact photo
+    default: null
+  createdAt:
+    type: string
+    format: date-time
+    example: 2024-05-08T16:12:14.954168
+  updatedAt:
+    type: string
+    format: date-time
+    example: 2024-05-08T16:27:14.954168

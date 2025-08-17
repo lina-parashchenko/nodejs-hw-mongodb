@@ -1,14 +1,33 @@
 type: object
+required:
+  - name
+  - phoneNumber
+  - email
+  - contactType
 properties:
   name:
     type: string
-    example: 'Piter Pane'
+    description: Contact name
+    example: Piter Pane
+  phoneNumber:
+    type: string
+    description: Contact phone number
+    example: +380961711291
   email:
     type: string
-    example: 'Piter1987@example.com'
-  phone:
+    description: Contact email
+    example: Piter1987@mail.com
+  contactType:
     type: string
-    example: '+380971234567'
-required:
-  - name
-  - email
+    description: Type of contact
+    enum: ['work', 'home', 'personal']
+    default: 'personal'
+  isFavourite:
+    type: boolean
+    description: Contact is marked as favourite (true — added to favourites, false — not)
+    example: true
+    default: false
+  photo:
+    type: string
+    format: binary
+    description: Contact photo

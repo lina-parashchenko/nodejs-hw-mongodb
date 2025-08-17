@@ -35,14 +35,26 @@
   "paths": {
     "/contacts": {
       "get": {
-        "tags": ["contacts"],
+        "tags": [
+          "contacts"
+        ],
         "summary": "Get all contacts",
+        "operationId": "getContacts",
+        "description": "Retrieve a list of contacts with optional pagination.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/page"
           },
           {
             "$ref": "#/components/parameters/perPage"
+          },
+          {
+            "$ref": "#/components/parameters/sortBy"
           },
           {
             "$ref": "#/components/parameters/sortOrder"
@@ -52,18 +64,20 @@
           },
           {
             "$ref": "#/components/parameters/contactType"
-          },
-          {
-            "$ref": "#/components/parameters/sortBy"
           }
         ],
         "responses": {
           "200": {
-            "description": "Contacts successfully found",
+            "description": "Successfully found contacts!",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -71,38 +85,47 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Contacts successfully found"
+                      "example": "Successfully found contacts"
                     },
                     "data": {
                       "type": "object",
+                      "required": [
+                        "data",
+                        "page",
+                        "perPage",
+                        "totalItems",
+                        "totalPages",
+                        "hasNextPage",
+                        "hasPreviousPage"
+                      ],
                       "properties": {
-                        "contacts": {
+                        "data": {
                           "type": "array",
                           "items": {
-                            "$ref": "#/components/schemas/Contact"
+                            "$ref": "#/components/schemas/contact"
                           }
                         },
                         "page": {
-                          "type": "integer",
-                          "example": 1
+                          "type": "number",
+                          "example": 2
                         },
                         "perPage": {
-                          "type": "integer",
+                          "type": "number",
                           "example": 10
                         },
                         "totalItems": {
-                          "type": "integer",
-                          "example": 25
+                          "type": "number",
+                          "example": 40
                         },
                         "totalPages": {
-                          "type": "integer",
-                          "example": 3
+                          "type": "number",
+                          "example": 4
                         },
-                        "hasPreviousPage": {
+                        "hasNextPage": {
                           "type": "boolean",
                           "example": false
                         },
-                        "hasNextPage": {
+                        "hasPreviousPage": {
                           "type": "boolean",
                           "example": true
                         }
@@ -112,11 +135,16 @@
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
           }
         }
       },
       "post": {
-        "tags": ["contacts"],
+        "tags": [
+          "contacts"
+        ],
         "summary": "Create a new contact",
         "operationId": "createContact",
         "description": "Add a new contact to the database.",
@@ -137,20 +165,27 @@
         },
         "responses": {
           "201": {
-            "description": "Successfully created a contact",
+            "description": "Created a contact",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status", "message", "data"],
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
                       "example": 201
                     },
                     "message": {
-                      "type": "string",
-                      "example": "Successfully created a contact!"
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "example": "Contact created successfully"
                     },
                     "data": {
                       "$ref": "#/components/schemas/contact"
@@ -162,13 +197,18 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
           }
         }
       }
     },
     "/contacts/{contactId}": {
       "get": {
-        "tags": ["contacts"],
+        "tags": [
+          "contacts"
+        ],
         "summary": "Get contact by id",
         "operationId": "getContact",
         "description": "Get contact by id",
@@ -195,7 +235,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status", "message", "data"],
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -219,7 +263,10 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status", "message"],
+                  "required": [
+                    "status",
+                    "message"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -237,7 +284,9 @@
         }
       },
       "patch": {
-        "tags": ["contacts"],
+        "tags": [
+          "contacts"
+        ],
         "summary": "Update a contact",
         "operationId": "updateContact",
         "description": "Update an existing contact by ID.",
@@ -284,7 +333,9 @@
         }
       },
       "delete": {
-        "tags": ["contacts"],
+        "tags": [
+          "contacts"
+        ],
         "summary": "Delete a contact",
         "operationId": "deleteContact",
         "description": "Remove a contact from the database by ID.",
@@ -316,7 +367,9 @@
     },
     "/auth/register": {
       "post": {
-        "tags": ["auth"],
+        "tags": [
+          "auth"
+        ],
         "summary": "Register a new user",
         "operationId": "registerUser",
         "description": "Create a new user account with email and password.",
@@ -327,7 +380,10 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["email", "password"],
+                "required": [
+                  "email",
+                  "password"
+                ],
                 "properties": {
                   "email": {
                     "type": "string",
@@ -408,7 +464,9 @@
     },
     "/auth/login": {
       "post": {
-        "tags": ["auth"],
+        "tags": [
+          "auth"
+        ],
         "summary": "User login",
         "operationId": "loginUser",
         "description": "Authenticate user and receive a JWT token.",
@@ -419,7 +477,10 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["email", "password"],
+                "required": [
+                  "email",
+                  "password"
+                ],
                 "properties": {
                   "email": {
                     "type": "string",
@@ -500,117 +561,6 @@
         "scheme": "bearer"
       }
     },
-    "schemas": {
-      "contact": {
-        "type": "object",
-        "properties": {
-          "_id": {
-            "type": "string",
-            "example": "64c7c5f3e13a3a001f7e3d8f"
-          },
-          "name": {
-            "type": "string",
-            "example": "Piter Pane"
-          },
-          "email": {
-            "type": "string",
-            "example": "piter1987@example.com"
-          },
-          "phone": {
-            "type": "string",
-            "example": 380501234567
-          },
-          "contactType": {
-            "type": "string",
-            "example": "work"
-          },
-          "isFavourite": {
-            "type": "boolean",
-            "example": false
-          },
-          "photo": {
-            "type": "string",
-            "example": "https://res.cloudinary.com/demo/image/upload/sample.jpg"
-          }
-        }
-      },
-      "ContactCreate": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "example": "Piter Pane"
-          },
-          "email": {
-            "type": "string",
-            "example": "Piter1987@example.com"
-          },
-          "phone": {
-            "type": "string",
-            "example": "+380971234567"
-          }
-        },
-        "required": ["name", "email"]
-      },
-      "contact": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "example": "64c7c5f3e13a3a001f7e3d8f"
-          },
-          "name": {
-            "type": "string",
-            "example": "Piter Pane"
-          },
-          "email": {
-            "type": "string",
-            "example": "Piter1987@example.com"
-          },
-          "phone": {
-            "type": "string",
-            "example": "+380971234567"
-          }
-        },
-        "required": ["name", "email"]
-      },
-      "ContactUpdate": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "description": "Contact's name",
-            "type": "string",
-            "example": "John Doe"
-          },
-          "phoneNumber": {
-            "description": "Contact's phone number",
-            "type": "string",
-            "example": 380501234567
-          },
-          "email": {
-            "description": "Contact's email",
-            "type": "string",
-            "example": "example@example.com"
-          },
-          "isFavourite": {
-            "description": "Is contact favourite",
-            "type": "boolean",
-            "example": false
-          },
-          "contactType": {
-            "description": "Type of contact",
-            "type": "string",
-            "enum": ["work", "home", "personal"]
-          },
-          "photo": {
-            "description": "Link to contact's photo",
-            "type": "string",
-            "format": "binary",
-            "example": "https://res.cloudinary.com/uqwgdu/image/upload/image.png"
-          }
-        }
-      }
-    },
     "parameters": {
       "page": {
         "in": "query",
@@ -633,12 +583,30 @@
         },
         "description": "Number of contacts per page"
       },
+      "sortBy": {
+        "in": "query",
+        "name": "sortBy",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "name",
+            "phoneNumber",
+            "email"
+          ],
+          "example": "name",
+          "default": "_id"
+        },
+        "description": "Sort contacts by field name"
+      },
       "sortOrder": {
         "in": "query",
         "name": "sortOrder",
         "schema": {
           "type": "string",
-          "enum": ["asc", "desc"],
+          "enum": [
+            "asc",
+            "desc"
+          ],
           "example": "desc",
           "default": "asc"
         },
@@ -659,22 +627,15 @@
         "name": "contactType",
         "schema": {
           "type": "string",
-          "enum": ["work", "home", "personal"],
+          "enum": [
+            "work",
+            "home",
+            "personal"
+          ],
           "default": "personal",
           "example": "work"
         },
         "description": "Type of contact"
-      },
-      "sortBy": {
-        "in": "query",
-        "name": "sortBy",
-        "schema": {
-          "type": "string",
-          "enum": ["name", "phoneNumber", "email"],
-          "example": "name",
-          "default": "_id"
-        },
-        "description": "Sort contacts by field name"
       },
       "contactId": {
         "name": "contactId",
@@ -687,6 +648,166 @@
         }
       }
     },
+    "schemas": {
+      "contact": {
+        "type": "object",
+        "required": [
+          "_id",
+          "name",
+          "phoneNumber",
+          "contactType",
+          "userId",
+          "photo",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Contact id",
+            "example": "689a4c53a949749869605279"
+          },
+          "name": {
+            "type": "string",
+            "description": "Contact name",
+            "example": "Piter Pane"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "description": "Contact phone number",
+            "example": 380994562313
+          },
+          "email": {
+            "type": "string",
+            "description": "Contact email",
+            "example": "Piter1987@mail.com"
+          },
+          "isFavourite": {
+            "type": "boolean",
+            "description": "Contact is marked as favourite (true — added to favourites, false — not)",
+            "example": true,
+            "default": false
+          },
+          "contactType": {
+            "type": "string",
+            "description": "Type of contact",
+            "enum": [
+              "work",
+              "home",
+              "personal"
+            ],
+            "default": "personal"
+          },
+          "userId": {
+            "type": "string",
+            "description": "Contact userID",
+            "example": "689a4c53a949749869605279"
+          },
+          "photo": {
+            "type": "string",
+            "description": "Contact photo",
+            "default": null
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-05-08T16:12:14.954168"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-05-08T16:27:14.954168"
+          }
+        }
+      },
+      "ContactCreate": {
+        "type": "object",
+        "required": [
+          "name",
+          "phoneNumber",
+          "email",
+          "contactType"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Contact name",
+            "example": "Piter Pane"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "description": "Contact phone number",
+            "example": 380961711291
+          },
+          "email": {
+            "type": "string",
+            "description": "Contact email",
+            "example": "Piter1987@mail.com"
+          },
+          "contactType": {
+            "type": "string",
+            "description": "Type of contact",
+            "enum": [
+              "work",
+              "home",
+              "personal"
+            ],
+            "default": "personal"
+          },
+          "isFavourite": {
+            "type": "boolean",
+            "description": "Contact is marked as favourite (true — added to favourites, false — not)",
+            "example": true,
+            "default": false
+          },
+          "photo": {
+            "type": "string",
+            "format": "binary",
+            "description": "Contact photo"
+          }
+        }
+      },
+      "ContactUpdate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Contact's name",
+            "type": "string",
+            "example": "Piter Pane"
+          },
+          "phoneNumber": {
+            "description": "Contact's phone number",
+            "type": "string",
+            "example": 380992345698
+          },
+          "email": {
+            "description": "Contact's email",
+            "type": "string",
+            "example": "example@example.com"
+          },
+          "isFavourite": {
+            "description": "Is contact favourite",
+            "type": "boolean",
+            "example": false
+          },
+          "contactType": {
+            "description": "Type of contact",
+            "type": "string",
+            "enum": [
+              "work",
+              "home",
+              "personal"
+            ]
+          },
+          "photo": {
+            "description": "Link to contact's photo",
+            "type": "string",
+            "format": "binary",
+            "example": "https://res.cloudinary.com/uqwgdu/image/upload/image.png"
+          }
+        }
+      }
+    },
     "responses": {
       "400": {
         "description": "Bad Request",
@@ -694,7 +815,11 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": ["status", "message", "data"],
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -706,7 +831,9 @@
                 },
                 "data": {
                   "type": "object",
-                  "required": ["message"],
+                  "required": [
+                    "message"
+                  ],
                   "properties": {
                     "message": {
                       "type": "array",
@@ -728,7 +855,11 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": ["status", "message", "data"],
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -740,7 +871,9 @@
                 },
                 "data": {
                   "type": "object",
-                  "required": ["message"],
+                  "required": [
+                    "message"
+                  ],
                   "properties": {
                     "message": {
                       "type": "string",
@@ -759,7 +892,11 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": ["status", "message", "data"],
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -771,7 +908,9 @@
                 },
                 "data": {
                   "type": "object",
-                  "required": ["message"],
+                  "required": [
+                    "message"
+                  ],
                   "properties": {
                     "message": {
                       "type": "string",
